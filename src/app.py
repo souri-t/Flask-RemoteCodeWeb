@@ -1,7 +1,7 @@
 from urllib import response
 from flask import Flask, jsonify
 import requests, json
-
+import RemoteControl
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -29,9 +29,18 @@ def GetCommands(appliance_id=None):
     response = requests.get(f'{URL}/api/rest/remote/appliances/{appliance_id}/commands', headers=headers)
     return response.json()
 
-@app.route('/Remote/Commands/<int:command_id>', methods=['POST'])
+@app.route('/Remote/Send/<int:command_id>', methods=['POST'])
 def SendCommand(command_id=None):
-    return { 'text' : command_id }
+    headers = {"content-type": "application/json"}
+    response = requests.get(f'{URL}/api/rest/remote/commands/{command_id}', headers=headers)
+
+    codeText = response.json()["remote_commands"][0]["code"]
+
+    codes = codeText.split(',')
+
+    result = RemoteControl.RemoteControl().send(codes)
+
+    return { 'text' : result }
 
 if __name__ == '__main__':
   app.run()
