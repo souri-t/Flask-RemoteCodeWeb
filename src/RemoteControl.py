@@ -1,23 +1,14 @@
 import time
 import pigpio # http://abyz.co.uk/rpi/pigpio/python.html
 
+# RemoteControl Class
 class RemoteControl:
     
-    def __init__(self):
-        self.a = 0
-        self.b = 0
-        self.GPIO = 25
+    def __init__(self, outGpioPort):
+        self.GPIO = outGpioPort
         self.FREQ = 38.0
         self.GAP_MS = 100
         self.GAP_S = self.GAP_MS  / 1000.0
-
-    # def __init__(self, a, b):
-    #     self.a = a
-    #     self.b = b
-    #     self.GPIO = 25
-    #     self.FREQ = 38.0
-    #     self.GAP_MS = 100
-    #     self.GAP_S = self.GAP_MS  / 1000.0
 
     """
     Generate carrier square wave.
@@ -76,9 +67,6 @@ class RemoteControl:
 
             pi.wave_chain(wave)
 
-            # if VERBOSE:
-            #     print("key " + arg)
-
             while pi.wave_tx_busy():
                 time.sleep(0.002)
 
@@ -94,13 +82,10 @@ class RemoteControl:
 
             spaces_wid = {}
             
-            
-            # return self.a + self.b
             return True
 
         except Exception as e:
             print('catch Exception:', e)
-
             return False
 
         finally:
