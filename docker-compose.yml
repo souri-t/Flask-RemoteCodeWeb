@@ -5,7 +5,6 @@ services:
       container_name: flask
       ports:
         - "5000:5000"
-        - "8888:8888"
       volumes:
         - "./src:/projects"
       env_file: ./env
