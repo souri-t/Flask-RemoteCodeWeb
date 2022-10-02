@@ -7,7 +7,7 @@ import RemoteControl
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-URL = "http://192.168.31.198:8080"
+URL = os.environ.get('REMOTE_WEBAPI_URL', 'https://hoge.hasura.app')
 
 @app.route('/')
 def index():
