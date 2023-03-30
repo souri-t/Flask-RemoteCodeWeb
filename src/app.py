@@ -3,8 +3,10 @@ import os
 from flask import Flask, jsonify
 import requests, json
 import RemoteControl
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
 URL = os.environ.get('REMOTE_WEBAPI_URL', 'https://hoge.hasura.app')
